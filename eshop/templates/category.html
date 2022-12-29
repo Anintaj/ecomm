@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block metadescription %}
+    {% if  category %}
+        {{category.description|truncatewords:155}}
+    {% else %}
+        Welcome to AJ EKart
+    {% endif %}
+{% endblock %}
+{% block title %}
+{% if  category %}
+        {{category.name}}AJ EKart
+    {% else %}
+         See our special sale
+    {% endif %}
+{% endblock %}
+{% block content %}
+    {% if category %}
+        <div>
+            <div class="row my_row_class">
+                <div class="mx_auto">
+                <p><a href="{% url 'shopapp : allprocat' %}"> Our Product collection </a></p>
+            </div>
+                </div>
+        </div>
+    {% endif %}
+<div class="mx-auto">
+    {% if category %}
+    <img  class="my_image" src="{{category.Image.url}}" alt="{{category.name}}" >
+</div> <br>
+<div>
+    <h1 class="text-center my_title" > {{category.name}}</h1>
+    <p class="text-justify" >{{category.description}}</p>
+</div>
+    {% else %}
+        <div>
+            <img class="my_image" src="{% static 'img/banner.png' %}" alt="Our products" width="1000px">
+        </div> <br>
+<div>
+    <h1 class="text-center my_title">Our product collection</h1>
+    <p class="text-justify">AJ Kart is guided by four principles: customer obsession rather than competitor focus, passion for invention, commitment to operational excellence, and long-term thinking. AJ Kart strives to be Earth’s most customer-centric company, Earth’s best employer, and Earth’s safest place to work. Customer reviews, 1-Click shopping, personalized recommendations, Prime, Fulfillment by AJ Kart, AWS, Kindle Direct Publishing, Kindle, Career Choice, Fire tablets, Fire TV, Amazon Echo, Alexa, Just Walk Out technology, AJ Studios, and The Climate Pledge are some of the things pioneered by AJ. </p>
+</div>
+    {% endif %}
+<div class="container ">
+    <div class="row mx-auto">
+        {% for product in products.object_list %}
+        <div class="my_bottom_margin col-9 col-sm-12 col-md-4 col-sm-12 col-lg-4">
+            <div class="card text-center" style="min-width:18rem;">
+        <a href="{{product.get_url}}"><img class="my_image" src="{{product.Image.url}}" alt="{{product.name}}" style="width:250px; height:260px;"> </a>
+<!--          </div>-->
+
+        <div class="card-body">
+            <h4>{{product.name}}</h4>
+            <p class="text-justify"> {{product.price}}</p>
+        </div>
+            </div>
+
+
+    </div>
+          {% endfor %}
+    </div>
+    <div class= "mx-auto">
+        {% if products.paginator.num_pages > 1 %}
+        <hr>
+    <div class="text-center">
+        {% for pg in products.paginator.page_range %}
+        <a href="?page={{pg}}" class="btn btn-light btn-sm {% if products.number == pg %} active {% endif %}" > {{pg}} </a>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+</div>
+<br>
+
+{% endblock %}
+</div>
